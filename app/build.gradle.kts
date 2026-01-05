@@ -1,32 +1,52 @@
-// Top of the file – plugins
+// Top‑level plugins
 plugins {
     id("com.android.application")
-    kotlin("android") version "1.9.20"
-    // other plugins …
+    kotlin("android")
 }
 
 android {
+    // ------------------------------------------------------------
+    // 1️⃣  Set the module namespace (required by AGP 8+)
+    // ------------------------------------------------------------
+    namespace = "com.example.mynote"
     compileSdk = 34
+
     defaultConfig {
         applicationId = "com.example.mynote"
-        minSdk = 21
+        minSdk = 24
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
     }
-    // ... other android config ...
+
+    // ------------------------------------------------------------
+    // 2️⃣  Align Compose compiler with the Kotlin version used
+    // ------------------------------------------------------------
+    buildFeatures {
+        compose = true
+    }
     composeOptions {
-        // Updated to a Compose compiler version that supports Kotlin 1.9.20
-        kotlinCompilerExtensionVersion = "1.5.2"
-        // (optional) if you use a BOM you can also bump it here
+        // Compose 1.5.3 works with Kotlin 1.9.20
+        kotlinCompilerExtensionVersion = "1.5.3"
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
+    }
+    kotlinOptions {
+        jvmTarget = "21"
     }
 }
 
-// Dependencies
 dependencies {
-    implementation(platform("androidx.compose:compose-bom:2024.04.00"))
+    val composeBom = platform("androidx.compose:compose-bom:2024.03.00")
+    implementation(composeBom)
+    // UI
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.material3:material3")
-    implementation("androidx.activity:activity-compose")
-    // other dependencies …
+    implementation("androidx.activity:activity-compose:1.9.0")
+    // Navigation
+    implementation("androidx.navigation:navigation-compose:2.7.7")
+    // Other dependencies …
 }
